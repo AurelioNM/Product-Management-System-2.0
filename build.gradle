@@ -1,0 +1,35 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.6.10'
+    id 'application'
+}
+
+group = 'me.aurelio'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+    implementation 'org.jetbrains.exposed:exposed:0.17.14'
+    implementation 'mysql:mysql-connector-java:8.0.27'
+    implementation 'org.slf4j:slf4j-simple:1.8.0-beta4'
+    implementation 'org.slf4j:slf4j-simple:1.7.32'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = '1.8'
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = '1.8'
+}
+
+application {
+    mainClassName = 'MainKt'
+}
