@@ -16,6 +16,9 @@ dependencies {
     implementation 'mysql:mysql-connector-java:8.0.27'
     implementation 'org.slf4j:slf4j-simple:1.8.0-beta4'
     implementation 'org.slf4j:slf4j-simple:1.7.32'
+    implementation 'io.javalin:javalin:4.2.0'
+    implementation 'org.flywaydb:flyway-core:8.4.1'
+
 }
 
 test {

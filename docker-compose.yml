@@ -10,11 +10,12 @@ services:
       MYSQL_PASSWORD: pms
       MYSQL_ROOT_PASSWORD: pms
       MYSQL_DATABASE: pms2DB
-  adminer:
-    image: adminer
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
-    links:
-      - db
+
+#  adminer:
+#    image: adminer
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - db
+#    links:
+#      - db
