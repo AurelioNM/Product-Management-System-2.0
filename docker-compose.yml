@@ -1,21 +1,34 @@
 version: '3'
 
 services:
-  db:
+
+  mySQL:
     image: mysql:8.0
     ports:
       - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_USER: pms
       MYSQL_PASSWORD: pms
-      MYSQL_ROOT_PASSWORD: pms
-      MYSQL_DATABASE: pms2DB
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: pms2
+    volumes:
+      - ./sql_Scripts:/docker-entrypoint-initdb.d
+#      - mydata:/home/mororo/Desktop/Docker-Persistence/PMS2
+#volumes:
+#  mydata:
 
-#  adminer:
-#    image: adminer
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - db
-#    links:
-#      - db
+  adminer:
+    image: adminer
+    ports:
+      - "8083:8083"
+    depends_on:
+      - mySQL
+    links:
+      - mySQL
+
+  redis:
+    image: redis
+#    command: redis-server --requirepass senha
+    ports:
+      - "6379:6379"

@@ -1,0 +1,11 @@
+INSERT INTO Product(name, priceBRL, createdAt) VALUES('Xbox360', '1000.00', CURRENT_TIMESTAMP);
+INSERT INTO Product(name, priceBRL, createdAt) VALUES('XboxOne', '1500.00', CURRENT_TIMESTAMP);
+INSERT INTO Product(name, priceBRL, createdAt) VALUES('XboxOneX', '2200.00', CURRENT_TIMESTAMP);
+INSERT INTO Product(name, priceBRL, createdAt) VALUES('XboxSeriesS', '3000.00', CURRENT_TIMESTAMP);
+INSERT INTO Product(name, priceBRL, createdAt) VALUES('XboxSeriesX', '5000.00', CURRENT_TIMESTAMP);
+INSERT INTO Product(name, priceBRL, createdAt) VALUES('PS3', '500.00', CURRENT_TIMESTAMP);
+INSERT INTO Product(name, priceBRL, createdAt) VALUES('PS4', '1500.00', CURRENT_TIMESTAMP);
+INSERT INTO Product(name, priceBRL, createdAt) VALUES('PS4PRO', '2200.00', CURRENT_TIMESTAMP);
+INSERT INTO Product(name, priceBRL, createdAt) VALUES('PS5DIGITAL', '4500.00', CURRENT_TIMESTAMP);
+INSERT INTO Product(name, priceBRL, createdAt) VALUES('PS5', '5000.00', CURRENT_TIMESTAMP);
+select * from Product;
