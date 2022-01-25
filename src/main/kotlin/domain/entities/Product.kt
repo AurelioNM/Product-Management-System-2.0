@@ -1,4 +1,4 @@
-package domain
+package domain.entities
 
 import org.jetbrains.exposed.sql.CurrentDateTime
 import org.jetbrains.exposed.sql.Table
