@@ -18,14 +18,14 @@ services:
 #volumes:
 #  mydata:
 
-  adminer:
-    image: adminer
-    ports:
-      - "8083:8083"
-    depends_on:
-      - mySQL
-    links:
-      - mySQL
+#  adminer:
+#    image: adminer
+#    ports:
+#      - "8083:8083"
+#    depends_on:
+#      - mySQL
+#    links:
+#      - mySQL
 
   redis:
     image: redis

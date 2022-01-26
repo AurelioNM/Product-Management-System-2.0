@@ -11,6 +11,7 @@ class ProductRepository: IRepository {
     override fun getProducts(): List<ResultRow> {
         return transaction(DbConnection.connectDB()) {
             Product.selectAll().toList()
+
         }
     }
 
