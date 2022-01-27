@@ -51,10 +51,10 @@ internal class ProductRepositoryTest {
     @Test
     fun `When updateProduct() is called, Product should be updated`() {
         val productDTO = ProductDTO(
-            name = "ATUALIZOOOOOOOOU",
+            name = "oi",
             priceBRL =  BigDecimal(77777.00).setScale(2)
         )
-        ProductRepository().updateProduct(1, productDTO)
+        ProductRepository().updateProduct(10, productDTO)
         val products: List<ProductDTO> = ProductRepository().getProducts()
         products.forEach { println(it.name) }
         assertEquals(1, 1)

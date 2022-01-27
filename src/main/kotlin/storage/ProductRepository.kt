@@ -5,6 +5,7 @@ import domain.dto.ProductDTO
 import domain.entities.Product
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.lang.IllegalArgumentException
 import java.math.BigDecimal
 
 class ProductRepository: IRepository {
@@ -26,6 +27,12 @@ class ProductRepository: IRepository {
         }
     }
 
+    override fun deleteProduct(id: Int) {
+        transaction(DbConnection.connectDB()) {
+            Product.deleteWhere { Product.id eq id }
+        }
+    }
+
     override fun updateProduct(id: Int, productDTO: ProductDTO) {
         transaction(DbConnection.connectDB()) {
             Product.update({ Product.id eq id }) {
@@ -33,12 +40,8 @@ class ProductRepository: IRepository {
                 it[priceBRL] = productDTO.priceBRL.toString().toBigDecimal()
             }
         }
+        throw Exception()
     }
 
-    override fun deleteProduct(id: Int) {
-        transaction(DbConnection.connectDB()) {
-            Product.deleteWhere { Product.id eq id }
-        }
-    }
 
 }
