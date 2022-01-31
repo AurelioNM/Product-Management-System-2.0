@@ -6,15 +6,12 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 fun main(args: Array<String>) {
 
-    val dbCon = DbConnection.connectDB()
+    val dbCon = DbConnection()
 
-    val teste1 = transaction(dbCon) {
-        Product.selectAll().toList()
+    transaction(dbCon.connectDB()) {
+
     }
 
     val app = Javalin.create().start(7000)
-
-
-
 
 }
