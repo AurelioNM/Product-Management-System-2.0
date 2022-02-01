@@ -6,5 +6,5 @@ import java.math.BigDecimal
 
 @JsonClass(generateAdapter = true)
 class Currency(
-    val ask: Double
+    @Json(name = "ask") val ask: BigDecimal
 )
