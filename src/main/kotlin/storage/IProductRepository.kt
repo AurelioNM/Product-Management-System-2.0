@@ -1,10 +1,8 @@
 package storage
 
 import domain.dto.ProductDTO
-import domain.entities.Product
-import org.jetbrains.exposed.sql.ResultRow
 
-interface IRepository {
+interface IProductRepository {
     fun getProducts(): List<ProductDTO>
     fun getProductsById(id: Int): ProductDTO?
     fun postProduct(productDTO: ProductDTO): ProductDTO

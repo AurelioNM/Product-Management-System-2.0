@@ -4,9 +4,7 @@ import config.DbConnection
 import domain.dto.ProductDTO
 import domain.entities.Product
 import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.statements.InsertStatement
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Test
@@ -16,7 +14,7 @@ import java.math.BigDecimal
 
 internal class ProductRepositoryTest {
 
-    private val productRepository = ProductRepository()
+    private val productRepository = ProductProductRepository()
 
     companion object {
         @JvmStatic

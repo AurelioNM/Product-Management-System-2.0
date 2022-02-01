@@ -6,9 +6,8 @@ import domain.entities.Product
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import redis.clients.jedis.JedisPool
-import kotlin.IllegalArgumentException
 
-class ProductRepository: IRepository {
+class ProductProductRepository: IProductRepository {
 
     private val dbCon = DbConnection()
     private val pool = JedisPool("localhost", 6379)
