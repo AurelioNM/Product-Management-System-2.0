@@ -1,8 +1,6 @@
 package domain.entities
 
-import org.jetbrains.exposed.sql.CurrentDateTime
 import org.jetbrains.exposed.sql.Table
-import org.joda.time.DateTime
 
 object Product : Table() {
     val id = integer("id").autoIncrement().primaryKey()

@@ -4,5 +4,5 @@ import domain.entities.Currency
 
 
 interface ICurrenciesRepository {
-    fun getJsonList(): Map<String, Currency>
+    fun getJsonMap(): Map<String, Currency>
 }

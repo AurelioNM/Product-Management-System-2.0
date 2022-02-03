@@ -25,13 +25,8 @@ dependencies {
     implementation 'redis.clients:jedis:4.1.0'
 
     implementation 'com.squareup.moshi:moshi:1.13.0'
-
     runtimeOnly 'com.squareup.moshi:moshi-kotlin:1.13.0'
 
-    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
-    implementation 'com.squareup.moshi:moshi:1.9.1'
-    implementation 'com.squareup.moshi:moshi-kotlin-codegen:1.9.1'
-    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.8.+'
     implementation 'com.google.code.gson:gson:2.8.9'
 
 }
