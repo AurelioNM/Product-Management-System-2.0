@@ -14,7 +14,7 @@ import java.math.BigDecimal
 
 internal class ProductRepositoryTest {
 
-    private val productRepository = ProductProductRepository()
+    private val productRepository = ProductRepository()
 
     companion object {
         @JvmStatic
