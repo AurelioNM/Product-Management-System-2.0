@@ -2,7 +2,7 @@ package config
 
 import org.jetbrains.exposed.sql.Database
 
-class DbConnection: IDbCon {
+class DbConnection: IDbConnection {
 
     override fun connectDB(): Database {
         return Database.connect(

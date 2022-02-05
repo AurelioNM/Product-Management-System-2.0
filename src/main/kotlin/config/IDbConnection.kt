@@ -2,6 +2,6 @@ package config
 
 import org.jetbrains.exposed.sql.Database
 
-interface IDbCon {
+interface IDbConnection {
     fun connectDB(): Database
 }

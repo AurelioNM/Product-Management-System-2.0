@@ -7,14 +7,15 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 
 internal class ProductRepositoryTest {
 
     private val productRepository = ProductRepository()
+    private val connection = DbConnection()
 
     companion object {
         @JvmStatic
@@ -50,7 +51,7 @@ internal class ProductRepositoryTest {
     //GetProduct
     @Test
     fun `Given that BeeforeAll inserts values in DB, When getProducts() is called, attributes Should match`() {
-        val products: List<ProductDTO> = productRepository.getProducts()
+        val products: List<ProductDTO> = productRepository.getProducts(connection)
         val productDTO = ProductDTO("Primeiro", BigDecimal(100.00).setScale(2))
         assertEquals(productDTO.name, products[0].name)
     }
@@ -58,14 +59,14 @@ internal class ProductRepositoryTest {
     //GetProductByID
     @Test
     fun `Given id = 2, When getProductsById() is called, attributes Should match`() {
-        val product = productRepository.getProductsById(4)
+        val product = productRepository.getProductsById(connection, 4)
         val productDTO = ProductDTO("Quarto", BigDecimal(400.00).setScale(2))
         assertEquals(productDTO.name, product?.name)
     }
 
     @Test
     fun `Given non existing id, When getProductsById() is called Should return null`() {
-        val product = productRepository.getProductsById(98327)
+        val product = productRepository.getProductsById(connection, 98327)
         assertEquals(null, product)
     }
 
@@ -76,10 +77,10 @@ internal class ProductRepositoryTest {
             name = "Novo Produto",
             priceBRL =  BigDecimal(99999.00).setScale(2)
         )
-        productRepository.postProduct(productDTO)
+        productRepository.postProduct(connection, productDTO)
 
-        val lastId = productRepository.getProducts().last().id
-        val lastProduct: ProductDTO? = productRepository.getProductsById(lastId)
+        val lastId = productRepository.getProducts(connection).last().id
+        val lastProduct: ProductDTO? = productRepository.getProductsById(connection, lastId)
         assertEquals(productDTO.name, lastProduct?.name)
         assertEquals(productDTO.priceBRL, lastProduct?.priceBRL)
     }
@@ -91,16 +92,16 @@ internal class ProductRepositoryTest {
             name = "Produto Atualizado",
             priceBRL =  BigDecimal(77777.00).setScale(2)
         )
-        productRepository.updateProduct(2, productDTO)
-        val product = productRepository.getProductsById(2)?.name
+        productRepository.updateProduct(connection, 2, productDTO)
+        val product = productRepository.getProductsById(connection, 2)?.name
         assertEquals("Produto Atualizado", product)
     }
 
     //DeleteProduct
     @Test
     fun `When deleteProduct() is called, Product should be deleted`() {
-        productRepository.deleteProduct(5)
-        val deletedProduct = productRepository.getProductsById(5)
+        productRepository.deleteProduct(connection, 5)
+        val deletedProduct = productRepository.getProductsById(connection, 5)
         assertEquals(null, deletedProduct)
     }
 

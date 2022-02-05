@@ -6,12 +6,6 @@ import storage.ProductRepository
 
 fun main(args: Array<String>) {
 
-    val dbCon = DbConnection()
-
-    transaction(dbCon.connectDB()) {
-
-    }
-
     val app = Javalin.create().start(7000)
 
 }

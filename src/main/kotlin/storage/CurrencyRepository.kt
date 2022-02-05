@@ -15,30 +15,7 @@ class CurrencyRepository: ICurrenciesRepository {
 
     private val jedis = JedisPool("localhost", 6379).resource
 
-    override fun getJsonMapFromURL(): Map<String, Currency> {
-        val jsonString: String = URL("https://economia.awesomeapi.com.br/all").readText()
-        val mapType: Type = object : TypeToken<Map<String?, Currency?>?>() {}.type
-        val jsonMap: Map<String, Currency> = Gson().fromJson(jsonString, mapType)
-        insertJsonMapInRedis(jsonMap)
-        return jsonMap
-    }
-
-    private fun insertJsonMapInRedis(jsonMapFromURL: Map<String, Currency>) {
-        jsonMapFromURL.forEach {
-            jedis.hset("currencies", it.key, it.value.ask.toString())
-        }
-
-        Timer().schedule(
-            delay = 10000,
-            action = { jedis.flushAll() }
-        )
-    }
-
-    private fun gettingMapFromRedis(): MutableMap<String, String>? {
-        return jedis.hgetAll("currencies")
-    }
-
-    fun getJsonMap(): Map<String, BigDecimal> {
+    override fun getJsonMap(): Map<String, BigDecimal> {
         val mapFromRedis: MutableMap<String, String>? = gettingMapFromRedis()
         val jsonMap = mutableMapOf<String, BigDecimal>()
 
@@ -50,6 +27,32 @@ class CurrencyRepository: ICurrenciesRepository {
         }
 
         return jsonMap
+    }
+
+    override fun getJsonMapFromURL(): Map<String, Currency> {
+        val jsonString: String = URL("https://economia.awesomeapi.com.br/all").readText()
+        val mapType: Type = object : TypeToken<Map<String?, Currency?>?>() {}.type
+        val jsonMap: Map<String, Currency> = Gson().fromJson(jsonString, mapType)
+        insertJsonMapInRedis(jsonMap)
+        return jsonMap
+    }
+
+    override fun gettingMapFromRedis(): MutableMap<String, String>? {
+        return jedis.hgetAll("currencies")
+    }
+
+    override fun insertJsonMapInRedis(jsonMapFromURL: Map<String, Currency>) {
+        jsonMapFromURL.forEach {
+            jedis.hset("currencies", it.key, it.value.ask.toString())
+        }
+        clearRedis()
+    }
+
+    override fun clearRedis() {
+        Timer().schedule(
+            delay = 10000,
+            action = { jedis.flushAll() }
+        )
     }
 
 }

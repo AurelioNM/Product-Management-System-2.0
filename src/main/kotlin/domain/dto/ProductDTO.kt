@@ -1,6 +1,5 @@
 package domain.dto
 
-import domain.entities.Currency
 import domain.entities.Product
 import org.jetbrains.exposed.sql.ResultRow
 import storage.CurrencyRepository
@@ -11,34 +10,34 @@ data class ProductDTO(
     val name: String,
     val priceBRL: BigDecimal,
 ) {
-    var otherCurrencies = mutableMapOf<String, BigDecimal>()
     var id: Int = 0
+    var otherCurrencies = mutableMapOf<String, BigDecimal>()
 
     override fun toString(): String {
         return "ProductDTO(" +
                 "id=$id, " +
                 "name=$name, " +
                 "priceBRL=$priceBRL, " +
-                "otherCurrencies=${otherCurrencies.toString()})"
+                "otherCurrencies=${otherCurrencies})"
     }
 
     companion object {
-        fun convertResultRowToDTO(resultRow: ResultRow): ProductDTO {
+        fun convertProductRowsToDTO(productResultRow: ResultRow): ProductDTO {
             val productDTO = ProductDTO(
-                name = resultRow[Product.name],
-                priceBRL = resultRow[Product.priceBRL],
+                name = productResultRow[Product.name],
+                priceBRL = productResultRow[Product.priceBRL],
             )
-            productDTO.otherCurrencies = insertingCurrencies(resultRow[Product.priceBRL])
-            productDTO.id = resultRow[Product.id]
+            productDTO.otherCurrencies = populatingOtherCurrencies(productResultRow[Product.priceBRL])
+            productDTO.id = productResultRow[Product.id]
             return productDTO
         }
 
-        private fun insertingCurrencies(priceBRL: BigDecimal): MutableMap<String, BigDecimal> {
-            val jsonMap: Map<String, BigDecimal> = CurrencyRepository().getJsonMap()
-            val map = mutableMapOf<String, BigDecimal>()
-            jsonMap.forEach { map[it.key] = (it.value * priceBRL).setScale(2, RoundingMode.HALF_EVEN) }
-            return map
+        private fun populatingOtherCurrencies(priceBRL: BigDecimal): MutableMap<String, BigDecimal> {
+            val otherCurrenciesMap = mutableMapOf<String, BigDecimal>()
+            CurrencyRepository().getJsonMap().forEach {
+                otherCurrenciesMap[it.key] = (it.value * priceBRL).setScale(2, RoundingMode.HALF_EVEN)
+            }
+            return otherCurrenciesMap
         }
     }
-
 }
