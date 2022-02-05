@@ -15,4 +15,6 @@ fun main(args: Array<String>) {
 
     val jsonMap = CurrencyRepository().insertJsonMapInRedis()
 
+    CurrencyRepository().gettingMapFromRedis()
+
 }
