@@ -1,23 +1,20 @@
-package storage
+package service
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import domain.entities.Currency
-import redis.clients.jedis.JedisPool
+import storage.RedisRepository
 import java.lang.reflect.Type
 import java.math.BigDecimal
 import java.net.URL
-import java.util.*
-import kotlin.concurrent.schedule
 
 
-class CurrencyRepository: ICurrenciesRepository {
+class CurrenciesService: ICurrenciesService {
 
-    private val twoMinutes: Long = 120000
-    private val jedis = JedisPool("localhost", 6379).resource
+    private val redisRepository = RedisRepository()
 
     override fun getJsonMap(): Map<String, BigDecimal> {
-        val mapFromRedis: MutableMap<String, String>? = getMapFromRedis()
+        val mapFromRedis: MutableMap<String, String>? = redisRepository.getMap()
         val jsonMap = mutableMapOf<String, BigDecimal>()
 
         if (mapFromRedis?.isNotEmpty() == true) {
@@ -33,28 +30,11 @@ class CurrencyRepository: ICurrenciesRepository {
     override fun convertJsonStringInMap(jsonString: String): Map<String, Currency> {
         val mapType: Type = object : TypeToken<Map<String?, Currency?>?>() {}.type
         val jsonMap: Map<String, Currency> = Gson().fromJson(jsonString, mapType)
-        insertJsonMapInRedis(jsonMap)
+        redisRepository.setMap(jsonMap)
         return jsonMap
     }
 
     override fun getJsonStringFromUrl(): String = URL("https://economia.awesomeapi.com.br/all").readText()
 
-    override fun getMapFromRedis(): MutableMap<String, String>? {
-        return jedis.hgetAll("currencies")
-    }
-
-    override fun insertJsonMapInRedis(jsonMapFromURL: Map<String, Currency>) {
-        jsonMapFromURL.forEach {
-            jedis.hset("currencies", it.key, it.value.ask.toString())
-        }
-        clearRedis(twoMinutes)
-    }
-
-    override fun clearRedis(expiration: Long) {
-        Timer().schedule(
-            delay = expiration,
-            action = { jedis.flushAll() }
-        )
-    }
 
 }

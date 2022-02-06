@@ -2,7 +2,7 @@ package domain.dto
 
 import domain.entities.Product
 import org.jetbrains.exposed.sql.ResultRow
-import storage.CurrencyRepository
+import service.CurrenciesService
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -34,7 +34,7 @@ data class ProductDTO(
 
         private fun populatingOtherCurrencies(priceBRL: BigDecimal): MutableMap<String, BigDecimal> {
             val otherCurrenciesMap = mutableMapOf<String, BigDecimal>()
-            CurrencyRepository().getJsonMap().forEach {
+            CurrenciesService().getJsonMap().forEach {
                 otherCurrenciesMap[it.key] = (it.value * priceBRL).setScale(2, RoundingMode.HALF_EVEN)
             }
             return otherCurrenciesMap

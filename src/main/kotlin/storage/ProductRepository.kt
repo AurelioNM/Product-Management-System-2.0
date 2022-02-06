@@ -1,5 +1,6 @@
 package storage
 
+import config.DbConnection
 import config.IDbConnection
 import domain.dto.ProductDTO
 import domain.entities.Product
@@ -8,21 +9,21 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class ProductRepository: IProductRepository {
 
-//    private val dbCon: IDbConnection =
+    private val dbCon: IDbConnection = DbConnection()
 
-    override fun getProducts(dbCon: IDbConnection): List<ProductDTO> {
+    override fun getProducts():  List<ProductDTO> {
         return transaction(dbCon.connectDB()) {
             Product.selectAll().map { ProductDTO.convertProductRowsToDTO(it) }
         }
     }
 
-    override fun getProductsById(dbCon: IDbConnection, id: Int): ProductDTO? {
+    override fun getProductsById(id: Int): ProductDTO? {
         return transaction(dbCon.connectDB()) {
             Product.select { Product.id eq id }.singleOrNull()?.let { ProductDTO.convertProductRowsToDTO(it) }
         }
     }
 
-    override fun postProduct(dbCon: IDbConnection, productDTO: ProductDTO): ProductDTO {
+    override fun postProduct(productDTO: ProductDTO): ProductDTO {
         transaction(dbCon.connectDB()) {
             Product.insert {
                 it[name] = productDTO.name
@@ -32,7 +33,7 @@ class ProductRepository: IProductRepository {
         return productDTO
     }
 
-    override fun updateProduct(dbCon: IDbConnection, id: Int, productDTO: ProductDTO) {
+    override fun updateProduct(id: Int, productDTO: ProductDTO) {
         transaction(dbCon.connectDB()) {
             Product.update({ Product.id eq id }) {
                 it[name] = productDTO.name
@@ -41,7 +42,7 @@ class ProductRepository: IProductRepository {
         }
     }
 
-    override fun deleteProduct(dbCon: IDbConnection, id: Int) {
+    override fun deleteProduct(id: Int) {
         transaction(dbCon.connectDB()) {
             Product.deleteWhere { Product.id eq id }
         }
