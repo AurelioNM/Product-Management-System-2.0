@@ -1,6 +1,7 @@
 package service
 
 import domain.dto.ProductDTO
+import io.javalin.http.NotFoundResponse
 import storage.ProductRepository
 
 class ProductService {
@@ -12,10 +13,13 @@ class ProductService {
         products.forEach { ProductDTO.populatingOtherCurrencies(it) }
         return products
     }
-    fun getProductById(id: Int): ProductDTO? {
+    fun getProductById(id: Int): ProductDTO {
         val productById: ProductDTO? = repository.getProductById(id)
-        productById?.let { ProductDTO.populatingOtherCurrencies(it) }
-        return productById
+        productById?.let {
+            ProductDTO.populatingOtherCurrencies(it)
+            return productById
+        }
+        throw NotFoundResponse()
     }
     fun postProduct(productDTO: ProductDTO): ProductDTO {
         return repository.postProduct(productDTO)
