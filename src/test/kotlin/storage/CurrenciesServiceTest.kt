@@ -13,13 +13,6 @@ import kotlin.concurrent.schedule
 internal class CurrenciesServiceTest {
 
     private val currenciesService = CurrenciesService()
-    private val jedis = JedisPool("localhost", 6379).resource
-
-    @AfterEach
-    fun afterAll() {
-            val jedis = JedisPool("localhost", 6379).resource
-            jedis.flushAll()
-        }
 
     @Test
     fun `When getJsonStringFromURL() is called, string Should not be empty`() {
@@ -43,50 +36,5 @@ internal class CurrenciesServiceTest {
         assertTrue(jsonMapFromURL.containsKey("CAD"))
     }
 
-    @Test
-    fun `Given that 1 element is inserted in Redis, When getMapFromRedis() is called, it Should return something`() {
-        jedis.hset("currencies", "DOGE", "2.2432")
-        val mapFromRedis: MutableMap<String, String>? = currenciesService.getMapFromRedis()
-        assertEquals("2.2432", mapFromRedis?.get("DOGE"))
-    }
 
-    @Test
-    fun `Given that 3 elements are inserted in Redis, When getMapFromRedis() is called, the map size Should be 3`() {
-        jedis.hset("currencies", "DOGE", "2.2432")
-        jedis.hset("currencies", "DOGE", "2.2432")
-        jedis.hset("currencies", "DOGE", "2.2432")
-        val mapFromRedis: MutableMap<String, String>? = currenciesService.getMapFromRedis()
-        assertEquals("2.2432", mapFromRedis?.get("DOGE"))
-    }
-
-    @Test
-    fun `Given that a map with 2 elements is inserted in Redis, When insertJsonMapInRedis() is called, redis Should have 2 elements`() {
-        val jsonMap = mutableMapOf<String, Currency>()
-        jsonMap["DOGE"] = Currency(BigDecimal(0.777))
-        jsonMap["CAD"] = Currency(BigDecimal(3.23))
-        currenciesService.insertJsonMapInRedis(jsonMap)
-
-        val mapFromRedis = currenciesService.getMapFromRedis()
-        assertEquals(2, mapFromRedis?.size)
-    }
-
-    @Test
-    fun getJsonMap() {
-    }
-
-    @Test
-    fun `Given that a map with 2 elements is inserted in Redis, When clearRedis() is called, redis Should be empty`() {
-        val jsonMap = mutableMapOf<String, Currency>()
-        jsonMap["DOGE"] = Currency(BigDecimal(0.777))
-        jsonMap["CAD"] = Currency(BigDecimal(3.23))
-        currenciesService.insertJsonMapInRedis(jsonMap)
-
-        currenciesService.clearRedis(0)
-        val hget: String? = jedis.hget("currencies", "DOGE")
-        Timer().schedule(
-            delay = 1,
-            action = { assertEquals(null, hget) }
-        )
-
-    }
 }

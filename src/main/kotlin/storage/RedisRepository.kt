@@ -22,7 +22,7 @@ class RedisRepository {
         clearAll(twoMinutes)
     }
 
-    private fun clearAll(expiration: Long) {
+    fun clearAll(expiration: Long) {
         Timer().schedule(
             delay = expiration,
             action = { jedis.flushAll() }
