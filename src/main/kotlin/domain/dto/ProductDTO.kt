@@ -27,17 +27,14 @@ data class ProductDTO(
                 name = productResultRow[Product.name],
                 priceBRL = productResultRow[Product.priceBRL],
             )
-            productDTO.otherCurrencies = populatingOtherCurrencies(productResultRow[Product.priceBRL])
             productDTO.id = productResultRow[Product.id]
             return productDTO
         }
 
-        private fun populatingOtherCurrencies(priceBRL: BigDecimal): MutableMap<String, BigDecimal> {
-            val otherCurrenciesMap = mutableMapOf<String, BigDecimal>()
+        fun populatingOtherCurrencies(productDTO: ProductDTO) {
             CurrenciesService().getJsonMap().forEach {
-                otherCurrenciesMap[it.key] = (it.value * priceBRL).setScale(2, RoundingMode.HALF_EVEN)
+                productDTO.otherCurrencies[it.key] = (it.value * productDTO.priceBRL).setScale(2, RoundingMode.HALF_EVEN)
             }
-            return otherCurrenciesMap
         }
     }
 }

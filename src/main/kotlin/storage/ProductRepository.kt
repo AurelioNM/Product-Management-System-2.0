@@ -11,13 +11,13 @@ class ProductRepository: IProductRepository {
 
     private val dbCon: IDbConnection = DbConnection()
 
-    override fun getProducts():  List<ProductDTO> {
+    override fun getProducts(): List<ProductDTO> {
         return transaction(dbCon.connectDB()) {
             Product.selectAll().map { ProductDTO.convertProductRowsToDTO(it) }
         }
     }
 
-    override fun getProductsById(id: Int): ProductDTO? {
+    override fun getProductById(id: Int): ProductDTO? {
         return transaction(dbCon.connectDB()) {
             Product.select { Product.id eq id }.singleOrNull()?.let { ProductDTO.convertProductRowsToDTO(it) }
         }

@@ -18,7 +18,9 @@ class CurrenciesService: ICurrenciesService {
     override fun convertJsonStringInMapAndInsertInRedis(jsonString: String): Map<String, Currency> {
         val mapType: Type = object : TypeToken<Map<String?, Currency?>?>() {}.type
         val jsonMap: Map<String, Currency> = Gson().fromJson(jsonString, mapType)
+
         redisRepository.setMap(jsonMap)
+
         return jsonMap
     }
 

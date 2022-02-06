@@ -6,23 +6,23 @@ import redis.clients.jedis.JedisPool
 import java.util.*
 import kotlin.concurrent.schedule
 
-class RedisRepository {
+class RedisRepository: IRedisRepository {
 
     private val twoMinutes: Long = 120000
     private val jedis: Jedis = JedisPool("localhost", 6379).resource
 
-    fun getMap(): MutableMap<String, String>? {
+    override fun getMap(): MutableMap<String, String>? {
         return jedis.hgetAll("currencies")
     }
 
-    fun setMap(jsonMapFromURL: Map<String, Currency>) {
+    override fun setMap(jsonMapFromURL: Map<String, Currency>) {
         jsonMapFromURL.forEach {
             jedis.hset("currencies", it.key, it.value.ask.toString())
         }
         clearAll(twoMinutes)
     }
 
-    fun clearAll(expiration: Long) {
+    override fun clearAll(expiration: Long) {
         Timer().schedule(
             delay = expiration,
             action = { jedis.flushAll() }

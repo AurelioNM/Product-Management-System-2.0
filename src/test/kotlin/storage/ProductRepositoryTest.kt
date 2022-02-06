@@ -58,14 +58,14 @@ internal class ProductRepositoryTest {
     //GetProductByID
     @Test
     fun `Given id = 2, When getProductsById() is called, attributes Should match`() {
-        val product = productRepository.getProductsById(4)
+        val product = productRepository.getProductById(4)
         val productDTO = ProductDTO("Quarto", BigDecimal(400.00).setScale(2))
         assertEquals(productDTO.name, product?.name)
     }
 
     @Test
     fun `Given non existing id, When getProductsById() is called Should return null`() {
-        val product = productRepository.getProductsById(98327)
+        val product = productRepository.getProductById(98327)
         assertEquals(null, product)
     }
 
@@ -79,7 +79,7 @@ internal class ProductRepositoryTest {
         productRepository.postProduct(productDTO)
 
         val lastId = productRepository.getProducts().last().id
-        val lastProduct: ProductDTO? = productRepository.getProductsById(lastId)
+        val lastProduct: ProductDTO? = productRepository.getProductById(lastId)
         assertEquals(productDTO.name, lastProduct?.name)
         assertEquals(productDTO.priceBRL, lastProduct?.priceBRL)
     }
@@ -92,7 +92,7 @@ internal class ProductRepositoryTest {
             priceBRL =  BigDecimal(77777.00).setScale(2)
         )
         productRepository.updateProduct(2, productDTO)
-        val product = productRepository.getProductsById(2)?.name
+        val product = productRepository.getProductById(2)?.name
         assertEquals("Produto Atualizado", product)
     }
 
@@ -100,7 +100,7 @@ internal class ProductRepositoryTest {
     @Test
     fun `When deleteProduct() is called, Product should be deleted`() {
         productRepository.deleteProduct(5)
-        val deletedProduct = productRepository.getProductsById(5)
+        val deletedProduct = productRepository.getProductById(5)
         assertEquals(null, deletedProduct)
     }
 
