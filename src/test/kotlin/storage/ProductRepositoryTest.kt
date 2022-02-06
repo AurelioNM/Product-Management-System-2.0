@@ -52,6 +52,7 @@ internal class ProductRepositoryTest {
     @Test
     fun `Given that BeeforeAll inserts values in DB, When getProducts() is called, attributes Should match`() {
         val products: List<ProductDTO> = productRepository.getProducts(connection)
+
         val productDTO = ProductDTO("Primeiro", BigDecimal(100.00).setScale(2))
         assertEquals(productDTO.name, products[0].name)
     }

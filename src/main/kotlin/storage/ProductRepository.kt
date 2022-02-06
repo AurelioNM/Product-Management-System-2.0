@@ -8,6 +8,8 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class ProductRepository: IProductRepository {
 
+//    private val dbCon: IDbConnection =
+
     override fun getProducts(dbCon: IDbConnection): List<ProductDTO> {
         return transaction(dbCon.connectDB()) {
             Product.selectAll().map { ProductDTO.convertProductRowsToDTO(it) }
