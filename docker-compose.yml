@@ -14,9 +14,6 @@ services:
       MYSQL_DATABASE: pms2
     volumes:
       - ./sql__Scripts:/docker-entrypoint-initdb.d
-#      - mydata:/home/mororo/Desktop/Docker-Persistence/PMS2
-#volumes:
-#  mydata:
 
 #  adminer:
 #    image: adminer

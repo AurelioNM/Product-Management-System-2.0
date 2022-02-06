@@ -7,28 +7,26 @@ import service.ProductService
 
 class ProductController {
 
-    private val productService = ProductService()
+    private val service = ProductService()
 
     fun getProducts(ctx: Context) {
-        val products = productService.getProducts()
+        val products = service.getProducts()
         ctx.json(products).status(HttpStatus.OK_200)
     }
 
     fun getProductsById(ctx: Context) {
         val id = ctx.pathParam("id")
-        val product = productService.getProductById(id.toInt())
+        val product = service.getProductById(id.toInt())
 
         ctx.json(product).status(HttpStatus.OK_200)
     }
 
     fun postProduct(ctx: Context) {
-        val product = try {
+        val product =
             ctx.bodyAsClass<ProductDTO>()
-        } catch (e: Exception) {
-            throw IllegalArgumentException()
-        }
 
-        val persistedProduct = productService.postProduct(product)
+
+        val persistedProduct = service.postProduct(product)
         ctx.json(persistedProduct).status(HttpStatus.CREATED_201)
     }
 
@@ -39,14 +37,14 @@ class ProductController {
         } catch (e: Exception) {
             throw IllegalArgumentException()
         }
-        productService.updateProduct(id.toInt(), product)
-        ctx.status(HttpStatus.NO_CONTENT_204)
+        service.updateProduct(id.toInt(), product)
+        ctx.status(HttpStatus.OK_200)
     }
 
     fun deleteProduct(ctx: Context) {
         val id = ctx.pathParam("id")
 
-        productService.deleteProduct(id.toInt())
+        service.deleteProduct(id.toInt())
         ctx.status(HttpStatus.NO_CONTENT_204)
     }
 

@@ -8,7 +8,7 @@ import kotlin.concurrent.schedule
 
 class RedisRepository: IRedisRepository {
 
-    private val twoMinutes: Long = 120000
+    private val twentyHours: Long = 72000000
     private val jedis: Jedis = JedisPool("localhost", 6379).resource
 
     override fun getMap(): MutableMap<String, String>? {
@@ -19,7 +19,7 @@ class RedisRepository: IRedisRepository {
         jsonMapFromURL.forEach {
             jedis.hset("currencies", it.key, it.value.ask.toString())
         }
-        clearAll(twoMinutes)
+        clearAll(twentyHours)
     }
 
     override fun clearAll(expiration: Long) {

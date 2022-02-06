@@ -5,40 +5,40 @@ import io.javalin.apibuilder.ApiBuilder
 
 class ProductRouter {
 
-    private val productController = ProductController()
+    private val controller = ProductController()
 
     fun getProducts() {
         ApiBuilder.get(
             "/Product",
-            productController::getProducts
+            controller::getProducts
         )
     }
 
     fun getProductById() {
         ApiBuilder.get(
             "/Product/{id}",
-            productController::getProductsById
+            controller::getProductsById
         )
     }
 
     fun postProduct() {
         ApiBuilder.post(
             "/Product",
-            productController::postProduct
+            controller::postProduct
         )
     }
 
     fun updateProduct() {
         ApiBuilder.put(
             "Product/{id}",
-            productController::updateProduct
+            controller::updateProduct
         )
     }
 
     fun deleteProduct() {
         ApiBuilder.delete(
             "/Product/{id}",
-            productController::deleteProduct
+            controller::deleteProduct
         )
     }
 
