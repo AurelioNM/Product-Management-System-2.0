@@ -13,7 +13,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: pms2
     volumes:
-      - ./sql_Scripts:/docker-entrypoint-initdb.d
+      - ./sql__Scripts:/docker-entrypoint-initdb.d
 #      - mydata:/home/mororo/Desktop/Docker-Persistence/PMS2
 #volumes:
 #  mydata:
