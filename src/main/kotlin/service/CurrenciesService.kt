@@ -3,6 +3,7 @@ package service
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import domain.entities.Currency
+import io.github.cdimascio.dotenv.dotenv
 import storage.RedisRepository
 import java.lang.reflect.Type
 import java.math.BigDecimal
@@ -11,9 +12,10 @@ import java.net.URL
 
 class CurrenciesService: ICurrenciesService {
 
+    private val dotEnv = dotenv()
     private val redisRepository = RedisRepository()
 
-    override fun getJsonStringFromUrl(): String = URL("https://economia.awesomeapi.com.br/all").readText()
+    override fun getJsonStringFromUrl(): String = URL(dotEnv["CURRENCIES_API"]).readText()
 
     override fun convertJsonStringInMapAndInsertInRedis(jsonString: String): Map<String, Currency> {
         val mapType: Type = object : TypeToken<Map<String?, Currency?>?>() {}.type

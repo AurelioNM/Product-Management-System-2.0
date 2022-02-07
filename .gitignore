@@ -7,6 +7,8 @@ libs
 activemq-data/
 /target/
 
+.env
+
 ### IntelliJ IDEA ###
 .idea/
 *.iws
