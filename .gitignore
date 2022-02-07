@@ -9,8 +9,6 @@ activemq-data/
 
 .env
 
-
-
 ### IntelliJ IDEA ###
 .idea/
 *.iws
