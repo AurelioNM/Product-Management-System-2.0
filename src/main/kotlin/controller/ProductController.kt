@@ -6,8 +6,15 @@ import org.eclipse.jetty.http.HttpStatus
 import service.ProductService
 
 class ProductController {
-
     private val service = ProductService()
+
+    fun cacheOn(ctx: Context) {
+        service.currenciesService.cacheOn()
+    }
+
+    fun cacheOff(ctx: Context) {
+        service.currenciesService.cacheOff()
+    }
 
     fun getProducts(ctx: Context) {
         val products = service.getProducts()

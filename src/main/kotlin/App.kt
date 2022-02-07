@@ -12,6 +12,8 @@ fun main(args: Array<String>) {
         productRouter.postProduct()
         productRouter.updateProduct()
         productRouter.deleteProduct()
+        productRouter.cacheOn()
+        productRouter.cacheOff()
     }
 
 }

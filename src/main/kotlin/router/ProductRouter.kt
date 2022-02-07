@@ -7,6 +7,20 @@ class ProductRouter {
 
     private val controller = ProductController()
 
+    fun cacheOn() {
+        ApiBuilder.get(
+            "/CACHEON",
+            controller::cacheOn
+        )
+    }
+
+    fun cacheOff() {
+        ApiBuilder.get(
+            "/CACHEOFF",
+            controller::cacheOff
+        )
+    }
+
     fun getProducts() {
         ApiBuilder.get(
             "/Product",

@@ -31,8 +31,8 @@ data class ProductDTO(
             return productDTO
         }
 
-        fun populatingOtherCurrencies(productDTO: ProductDTO) {
-            CurrenciesService().getJsonMap().forEach {
+        fun populatingOtherCurrencies(currenciesService: CurrenciesService, productDTO: ProductDTO) {
+            currenciesService.getJsonMap().forEach {
                 productDTO.otherCurrencies[it.key] = (it.value * productDTO.priceBRL).setScale(2, RoundingMode.HALF_EVEN)
             }
         }

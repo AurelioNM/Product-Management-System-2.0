@@ -7,16 +7,17 @@ import storage.ProductRepository
 class ProductService {
 
     private val repository = ProductRepository()
+    val currenciesService = CurrenciesService()
 
     fun getProducts(): List<ProductDTO> {
         val products: List<ProductDTO> = repository.getProducts()
-        products.forEach { ProductDTO.populatingOtherCurrencies(it) }
+        products.forEach { ProductDTO.populatingOtherCurrencies(currenciesService, it) }
         return products
     }
     fun getProductById(id: Int): ProductDTO {
         val productById: ProductDTO? = repository.getProductById(id)
         productById?.let {
-            ProductDTO.populatingOtherCurrencies(it)
+            ProductDTO.populatingOtherCurrencies(currenciesService, it)
             return productById
         }
         throw NotFoundResponse()

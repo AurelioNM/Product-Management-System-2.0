@@ -1,7 +1,6 @@
 package storage
 
 import domain.entities.Currency
-import io.github.cdimascio.dotenv.Dotenv
 import io.github.cdimascio.dotenv.dotenv
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.JedisPool
@@ -30,6 +29,10 @@ class RedisRepository: IRedisRepository {
             delay = expiration,
             action = { jedis.flushAll() }
         )
+    }
+
+    fun flushAll() {
+        jedis.flushAll()
     }
 
 }
