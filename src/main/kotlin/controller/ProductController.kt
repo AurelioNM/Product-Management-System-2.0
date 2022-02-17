@@ -8,12 +8,12 @@ import service.ProductService
 class ProductController {
     private val service = ProductService()
 
-    fun cacheOn(ctx: Context) {
-        service.currenciesService.cacheOn()
+    fun eneableCache(ctx: Context) {
+        service.currenciesService.configCache(true)
     }
 
-    fun cacheOff(ctx: Context) {
-        service.currenciesService.cacheOff()
+    fun disableCache(ctx: Context) {
+        service.currenciesService.configCache(false)
     }
 
     fun getProducts(ctx: Context) {

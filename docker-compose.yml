@@ -12,8 +12,8 @@ services:
       MYSQL_PASSWORD: pms
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: pms2
-    volumes:
-      - ./sql__Scripts:/docker-entrypoint-initdb.d
+#    volumes:
+#      - ./sql__Scripts:/docker-entrypoint-initdb.d
 
 #  adminer:
 #    image: adminer

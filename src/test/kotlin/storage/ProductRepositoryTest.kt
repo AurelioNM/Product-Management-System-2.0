@@ -57,7 +57,7 @@ internal class ProductRepositoryTest {
 
     //GetProductByID
     @Test
-    fun `Given id = 2, When getProductsById() is called, attributes Should match`() {
+    fun `Given id = 4, When getProductsById() is called, attributes Should match`() {
         val product = productRepository.getProductById(4)
         val productDTO = ProductDTO("Quarto", BigDecimal(400.00).setScale(2))
         assertEquals(productDTO.name, product?.name)
@@ -92,8 +92,8 @@ internal class ProductRepositoryTest {
             priceBRL =  BigDecimal(77777.00).setScale(2)
         )
         productRepository.updateProduct(2, productDTO)
-        val product = productRepository.getProductById(2)?.name
-        assertEquals("Produto Atualizado", product)
+        val productName = productRepository.getProductById(2)?.name
+        assertEquals("Produto Atualizado", productName)
     }
 
     //DeleteProduct

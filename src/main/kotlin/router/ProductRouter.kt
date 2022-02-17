@@ -9,15 +9,15 @@ class ProductRouter {
 
     fun cacheOn() {
         ApiBuilder.get(
-            "/CACHEON",
-            controller::cacheOn
+            "/eneablecache",
+            controller::eneableCache
         )
     }
 
     fun cacheOff() {
         ApiBuilder.get(
-            "/CACHEOFF",
-            controller::cacheOff
+            "/diseablecache",
+            controller::disableCache
         )
     }
 

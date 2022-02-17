@@ -7,10 +7,10 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 
 data class ProductDTO(
-    val id: Int,
     val name: String,
     val priceBRL: BigDecimal,
 ) {
+    var id: Int = 0
     var otherCurrencies = mutableMapOf<String, BigDecimal>()
 
     override fun toString(): String {
@@ -23,11 +23,12 @@ data class ProductDTO(
 
     companion object {
         fun convertProductRowsToDTO(productResultRow: ResultRow): ProductDTO {
-            return ProductDTO(
-                id = productResultRow[Product.id],
+            val product = ProductDTO(
                 name = productResultRow[Product.name],
                 priceBRL = productResultRow[Product.priceBRL],
             )
+            product.id = productResultRow[Product.id]
+            return product
         }
 
         fun populatingOtherCurrencies(currenciesService: CurrenciesService, productDTO: ProductDTO) {

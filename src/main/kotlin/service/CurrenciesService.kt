@@ -14,24 +14,25 @@ class CurrenciesService: ICurrenciesService {
 
     private val dotEnv = dotenv()
     private val redisRepository = RedisRepository()
-    private var cacheOn = true
+    private var cache = true
 
     override fun getJsonStringFromUrl(): String = URL(dotEnv["CURRENCIES_API"]).readText()
 
-    fun cacheOn() {
-        cacheOn = true
-    }
-
-    fun cacheOff() {
-        redisRepository.flushAll()
-        cacheOn = false
+    //eneable
+    fun configCache(cache: Boolean) {
+        if (cache) {
+            this.cache = cache
+        } else {
+            redisRepository.flushAll()
+            this.cache = cache
+        }
     }
 
     override fun convertJsonStringInMapAndInsertInRedis(jsonString: String): Map<String, Currency> {
         val mapType: Type = object : TypeToken<Map<String?, Currency?>?>() {}.type
         val jsonMap: Map<String, Currency> = Gson().fromJson(jsonString, mapType)
 
-        if (cacheOn) {
+        if (cache) {
             redisRepository.setMap(jsonMap)
         } else {
             redisRepository.flushAll()
