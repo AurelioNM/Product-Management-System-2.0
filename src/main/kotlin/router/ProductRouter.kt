@@ -7,16 +7,16 @@ class ProductRouter {
 
     private val controller = ProductController()
 
-    fun cacheOn() {
+    fun enableCache() {
         ApiBuilder.get(
-            "/eneablecache",
-            controller::eneableCache
+            "/enablecache",
+            controller::enableCache
         )
     }
 
-    fun cacheOff() {
+    fun disableCache() {
         ApiBuilder.get(
-            "/diseablecache",
+            "/disablecache",
             controller::disableCache
         )
     }

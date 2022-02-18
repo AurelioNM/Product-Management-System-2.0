@@ -7,3 +7,4 @@ object Product : Table() {
     val name = varchar("name", 50)
     val priceBRL = decimal("priceBRL", 10, 2)
 }
+

@@ -8,7 +8,7 @@ import service.ProductService
 class ProductController {
     private val service = ProductService()
 
-    fun eneableCache(ctx: Context) {
+    fun enableCache(ctx: Context) {
         service.currenciesService.configCache(true)
     }
 

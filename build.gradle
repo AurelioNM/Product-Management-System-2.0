@@ -36,6 +36,8 @@ dependencies {
 
     implementation 'io.github.cdimascio:dotenv-kotlin:6.2.2'
 
+    implementation 'io.github.microutils:kotlin-logging:2.1.21'
+    testImplementation 'ch.qos.logback:logback-classic:1.2.10'
 
 }
 

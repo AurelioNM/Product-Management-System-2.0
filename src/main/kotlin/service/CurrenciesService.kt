@@ -18,14 +18,11 @@ class CurrenciesService: ICurrenciesService {
 
     override fun getJsonStringFromUrl(): String = URL(dotEnv["CURRENCIES_API"]).readText()
 
-    //eneable
     fun configCache(cache: Boolean) {
-        if (cache) {
-            this.cache = cache
-        } else {
+        if (!cache) {
             redisRepository.flushAll()
-            this.cache = cache
         }
+        this.cache = cache
     }
 
     override fun convertJsonStringInMapAndInsertInRedis(jsonString: String): Map<String, Currency> {

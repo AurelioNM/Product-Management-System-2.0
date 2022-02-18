@@ -1,4 +1,5 @@
 import io.javalin.Javalin
+import mu.KotlinLogging
 import router.ProductRouter
 
 fun main(args: Array<String>) {
@@ -12,8 +13,8 @@ fun main(args: Array<String>) {
         productRouter.postProduct()
         productRouter.updateProduct()
         productRouter.deleteProduct()
-        productRouter.cacheOn()
-        productRouter.cacheOff()
+        productRouter.enableCache()
+        productRouter.disableCache()
     }
 
 }
