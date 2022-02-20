@@ -1,30 +1,27 @@
 package router
 
-import controller.ProductController
+import domain.dto.ProductDTO
 import io.javalin.apibuilder.ApiBuilder
-import io.javalin.http.Context
 import org.eclipse.jetty.http.HttpStatus
 import service.ProductService
 
 class ProductRouter {
 
-    private val controller = ProductController()
     private val service = ProductService()
 
     fun enableCache() {
-        ApiBuilder.get(
-            "/enablecache",
-            controller::enableCache
-        )
+        ApiBuilder.get("/enablecache") {
+            service.currenciesService.configCache(true)
+        }
+
     }
 
     fun disableCache() {
-        ApiBuilder.get(
-            "/disablecache",
-            controller::disableCache
-        )
+        ApiBuilder.get("/disablecache") {
+            service.currenciesService.configCache(false)
+        }
     }
-///////////////
+
     fun getProducts() {
         ApiBuilder.get("/Product") { ctx ->
             val products = service.getProducts()
@@ -33,31 +30,43 @@ class ProductRouter {
     }
 
     fun getProductById() {
-        ApiBuilder.get(
-            "/Product/{id}",
-            controller::getProductsById
-        )
+        ApiBuilder.get("/Product/{id}") { ctx ->
+            val id = ctx.pathParam("id")
+            val product = service.getProductById(id.toInt())
+
+            ctx.json(product).status(HttpStatus.OK_200)
+        }
     }
 
     fun postProduct() {
-        ApiBuilder.post(
-            "/Product",
-            controller::postProduct
-        )
+        ApiBuilder.post("/Product") { ctx ->
+            val product = ctx.bodyAsClass<ProductDTO>()
+
+            val persistedProduct = service.postProduct(product)
+            ctx.json(persistedProduct).status(HttpStatus.CREATED_201)
+        }
     }
 
     fun updateProduct() {
-        ApiBuilder.put(
-            "Product/{id}",
-            controller::updateProduct
-        )
+        ApiBuilder.put("Product/{id}") { ctx ->
+            val id = ctx.pathParam("id")
+            val product = try {
+                ctx.bodyAsClass<ProductDTO>()
+            } catch (e: Exception) {
+                throw IllegalArgumentException()
+            }
+            service.updateProduct(id.toInt(), product)
+            ctx.status(HttpStatus.OK_200)
+        }
     }
 
     fun deleteProduct() {
-        ApiBuilder.delete(
-            "/Product/{id}",
-            controller::deleteProduct
-        )
+        ApiBuilder.delete("/Product/{id}") { ctx ->
+            val id = ctx.pathParam("id")
+
+            service.deleteProduct(id.toInt())
+            ctx.status(HttpStatus.NO_CONTENT_204)
+        }
     }
 
 }
