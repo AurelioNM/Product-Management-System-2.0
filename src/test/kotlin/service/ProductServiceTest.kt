@@ -17,37 +17,6 @@ internal class ProductServiceTest {
 
     private val productService = ProductService()
 
-    companion object {
-        @JvmStatic
-        @BeforeAll
-        fun setup() {
-            val defaultProducts = listOf(
-                ProductDTO("Primeiro", BigDecimal(100)),
-                ProductDTO("Segundo", BigDecimal(200)),
-                ProductDTO("Terceiro", BigDecimal(300)),
-                ProductDTO("Quarto", BigDecimal(200)),
-                ProductDTO("Cinco", BigDecimal(200))
-            )
-            transaction(DbConnection().connectDB()) {
-                SchemaUtils.createMissingTablesAndColumns(Product)
-                defaultProducts.forEach { product ->
-                    Product.insert {
-                        it[name] = product.name
-                        it[priceBRL] = product.priceBRL.toString().toBigDecimal()
-                    }
-                }
-            }
-        }
-
-        @JvmStatic
-        @AfterAll
-        fun afterAll() {
-            transaction(DbConnection().connectDB()) {
-                SchemaUtils.drop(Product)
-            }
-        }
-    }
-
     @Test
     fun getProducts() {
         val products = productService.getProducts()

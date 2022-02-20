@@ -16,14 +16,14 @@ class CurrenciesService: ICurrenciesService {
     private val redisRepository = RedisRepository()
     private var cache = true
 
-    override fun getJsonStringFromUrl(): String = URL(dotEnv["CURRENCIES_API"]).readText()
-
-    fun configCache(cache: Boolean) {
+    override fun configCache(cache: Boolean) {
         if (!cache) {
             redisRepository.flushAll()
         }
         this.cache = cache
     }
+
+    override fun getJsonStringFromUrl(): String = URL(dotEnv["CURRENCIES_API"]).readText()
 
     override fun convertJsonStringInMapAndInsertInRedis(jsonString: String): Map<String, Currency> {
         val mapType: Type = object : TypeToken<Map<String?, Currency?>?>() {}.type

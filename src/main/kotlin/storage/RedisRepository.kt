@@ -31,7 +31,7 @@ class RedisRepository: IRedisRepository {
         )
     }
 
-    fun flushAll() {
+    override fun flushAll() {
         jedis.flushAll()
     }
 

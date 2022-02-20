@@ -2,10 +2,14 @@ package router
 
 import controller.ProductController
 import io.javalin.apibuilder.ApiBuilder
+import io.javalin.http.Context
+import org.eclipse.jetty.http.HttpStatus
+import service.ProductService
 
 class ProductRouter {
 
     private val controller = ProductController()
+    private val service = ProductService()
 
     fun enableCache() {
         ApiBuilder.get(
@@ -20,12 +24,12 @@ class ProductRouter {
             controller::disableCache
         )
     }
-
+///////////////
     fun getProducts() {
-        ApiBuilder.get(
-            "/Product",
-            controller::getProducts
-        )
+        ApiBuilder.get("/Product") { ctx ->
+            val products = service.getProducts()
+            ctx.json(products).status(HttpStatus.OK_200)
+        }
     }
 
     fun getProductById() {
