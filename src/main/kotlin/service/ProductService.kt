@@ -14,6 +14,7 @@ class ProductService {
         products.forEach { ProductDTO.populatingOtherCurrencies(currenciesService, it) }
         return products
     }
+
     fun getProductById(id: Int): ProductDTO {
         val productById: ProductDTO? = repository.getProductById(id)
         productById?.let {
@@ -22,12 +23,15 @@ class ProductService {
         }
         throw NotFoundResponse()
     }
+
     fun postProduct(productDTO: ProductDTO): ProductDTO {
         return repository.postProduct(productDTO)
     }
+
     fun updateProduct(id: Int, productDTO: ProductDTO) {
         repository.updateProduct(id, productDTO)
     }
+
     fun deleteProduct(id: Int) {
         repository.deleteProduct(id)
     }

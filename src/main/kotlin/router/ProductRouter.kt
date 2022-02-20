@@ -49,13 +49,9 @@ class ProductRouter {
 
     fun updateProduct() {
         ApiBuilder.put("Product/{id}") { ctx ->
-            val id = ctx.pathParam("id")
-            val product = try {
-                ctx.bodyAsClass<ProductDTO>()
-            } catch (e: Exception) {
-                throw IllegalArgumentException()
-            }
-            service.updateProduct(id.toInt(), product)
+            val product = ctx.bodyAsClass<ProductDTO>()
+
+            service.updateProduct(ctx.pathParam("id").toInt(), product)
             ctx.status(HttpStatus.OK_200)
         }
     }
