@@ -1,10 +1,18 @@
 import io.javalin.Javalin
-import mu.KotlinLogging
+import io.javalin.plugin.openapi.OpenApiOptions
+import io.javalin.plugin.openapi.OpenApiPlugin
+import io.javalin.plugin.openapi.ui.ReDocOptions
+import io.javalin.plugin.openapi.ui.SwaggerOptions
+import io.swagger.v3.oas.models.info.Info
+
+
 import router.ProductRouter
 
 fun main(args: Array<String>) {
 
-    val app = Javalin.create().start(7000)
+    val app = Javalin.create { config ->
+        config.registerPlugin(getConfiguredOpenApiPlugin())
+    }.start(7000)
 
     val productRouter = ProductRouter()
     app.routes {
@@ -16,12 +24,18 @@ fun main(args: Array<String>) {
         productRouter.enableCache()
         productRouter.disableCache()
     }
-
-    val logger = KotlinLogging.logger {}
-
-    logger.trace { "This is a trace log" }
-    logger.debug { "This is a debug log" }
-    logger.info { "This is a info log" }
-    logger.warn { "This is a warn log" }
-    logger.error { "This is a error log" }
 }
+
+
+fun getConfiguredOpenApiPlugin() = OpenApiPlugin(
+    OpenApiOptions(
+        Info().apply {
+            version("1.0")
+            description("App for product management")
+        }
+    ).apply {
+        path("/swagger-docs") // endpoint for OpenAPI json
+        swagger(SwaggerOptions("/swagger-ui")) // endpoint for swagger-ui
+        reDoc(ReDocOptions("/redoc")) // endpoint for redoc
+    }
+)

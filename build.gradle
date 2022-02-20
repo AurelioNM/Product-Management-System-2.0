@@ -27,7 +27,7 @@ dependencies {
     implementation 'com.squareup.moshi:moshi:1.13.0'
     runtimeOnly 'com.squareup.moshi:moshi-kotlin:1.13.0'
 
-    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.google.code.gson:gson:2.9.0'
 
     testImplementation 'io.mockk:mockk:1.12.2'
 
@@ -36,8 +36,8 @@ dependencies {
 
     implementation 'io.github.cdimascio:dotenv-kotlin:6.2.2'
 
-    implementation 'io.github.microutils:kotlin-logging:2.1.21'
-    testImplementation 'ch.qos.logback:logback-classic:1.2.10'
+    implementation group: 'io.javalin', name: 'javalin-bundle', version: '4.3.0'
+    implementation group: 'io.javalin', name: 'javalin-openapi', version: '4.3.0'
 
 }
 
